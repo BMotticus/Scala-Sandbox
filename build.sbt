@@ -1,7 +1,7 @@
 
-name := "bmott-scala-sandbox"
+name := """bm-scala-sandbox"""
 
-organization := "bmotticus"
+organization := "brandonmott"
 
 version := "1.0"
 
@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
   "org.scalamock"    %% "scalamock-scalatest-support" % "3.2" % "test",
   "org.mockito"      % "mockito-core" % "1.9.5",
   "commons-io"       % "commons-io" % "2.5",
-  "org.threeten"     % "threeten-extra" % "1.0"//,
+  "org.threeten"     % "threeten-extra" % "1.0",
+  "joda-time" % "joda-time" % "2.7"//,
 //  "mysql"  % "mysql-connector-java" % "5.1.36",
 //  "com.typesafe.play" %% "play" % "2.4.6",
 //  "com.typesafe.play" %% "play-jdbc" % "2.4.6",
