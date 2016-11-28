@@ -1,5 +1,5 @@
 
-name := """bm-scala-sandbox"""
+name := """bm-scalaSandBox"""
 
 organization := "brandonmott"
 
@@ -9,20 +9,17 @@ scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
   "org.typelevel"     %% "cats" % "0.6.1",
-  "com.typesafe.akka" %% "akka-actor" % "2.3.15",
-  "org.scalaz"                %% "scalaz-core" % "7.1.3",
-  "org.scalatest"    %% "scalatest" % "2.2.4" % "test",
-  "org.scalamock"    %% "scalamock-scalatest-support" % "3.2" % "test",
-  "org.mockito"      % "mockito-core" % "1.9.5",
-  "commons-io"       % "commons-io" % "2.5",
-  "org.threeten"     % "threeten-extra" % "1.0",
-  "joda-time" % "joda-time" % "2.7"//,
-//  "mysql"  % "mysql-connector-java" % "5.1.36",
-//  "com.typesafe.play" %% "play" % "2.4.6",
-//  "com.typesafe.play" %% "play-jdbc" % "2.4.6",
-//  "com.typesafe.play" %% "play-json" % "2.4.6",
-//  "com.typesafe.play" %% "play-ws" % "2.4.6",
-//  "io.prismic" %% "scala-kit" % "1.3.4"
+  "org.scalaz"        %% "scalaz-core" % "7.1.3",
+  "com.typesafe.akka" %% "akka-actor" % "2.4.12",
+  "com.typesafe.akka" %% "akka-agent" % "2.4.12",
+  "com.typesafe.akka" %% "akka-slf4j" % "2.4.12",
+  "org.scalatest" % "scalatest_2.11" % "3.0.0" % "test",
+//  "org.scalamock"     %% "scalamock-scalatest-support" % "3.2" % "test",
+//  "org.mockito"       % "mockito-core" % "1.9.5",
+  "commons-io"        % "commons-io" % "2.5",
+  "com.squants"       %% "squants" % "0.6.2",
+  "org.threeten"      % "threeten-extra" % "1.0",
+  "joda-time"         % "joda-time" % "2.7"
 )
 
 offline := true
