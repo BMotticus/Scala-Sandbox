@@ -17,7 +17,7 @@ case class Leaf[A](value: A) extends Tree[A] //Note: a `Tree` _data constructor_
 case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A] //Note: a `Tree` _data constructor_ representing the Branch to 2 more Tree data structures
 //Nodes are leaves and branches
 
-object Tree{ //companion object
+object Tree { //companion object
   //TODO continue on pg. 46
   
 }

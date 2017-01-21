@@ -9,6 +9,7 @@ scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
   "org.typelevel"     %% "cats" % "0.6.1",
+  "com.lihaoyi"       %% "ammonite" % "0.7.5" cross CrossVersion.full,
   "org.scalaz"        %% "scalaz-core" % "7.1.3",
   "com.typesafe.akka" %% "akka-actor" % "2.4.12",
   "com.typesafe.akka" %% "akka-agent" % "2.4.12",
@@ -23,6 +24,8 @@ libraryDependencies ++= Seq(
 )
 
 offline := true
+
+initialCommands in console := """ammonite.Main().run()"""
 
 //sources in doc in Compile := List()
 

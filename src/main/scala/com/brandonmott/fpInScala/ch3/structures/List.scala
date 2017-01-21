@@ -140,16 +140,20 @@ object List {
     * and Cons with f the function (A,B) => B . 
     * `foldRight goes through the whole list once before it applies function f`
     * Example:
-    * foldRight( Cons(1,Cons(2,Nil) , 0)( f: (a,b) => a + b )
-    *  `f(1, f(2, z=0)` //0 replaces Nil
-    *  `f(1, 2+0=2)`
-    *  `f(1,2)=1+2=3`
+    * {{{
+    *   foldRight( as=Cons(1, Cons(2, Nil)) , z=0)( (a,b) => a + b )
+    * }}}
+    * Steps:
+    *   1. `f replaces Cons` & `0 replaces Nil` //> f(1, f(2, z=0)  
+    *   2. solve for `f(2, 0) == 2 + 0 = 2`     //> f(1, 2) 
+    *   3. solve for `f(1, 2) == 1 + 2 = 3`     //> f(1, 2)
+    *
     * @param as a list of any given type
     * @param z  Starting point; value to return in case of an empty list 
     * @param f  function to add an element to the result in case of an nonempty list
     * @tparam A type of the list
     * @tparam B the result 
-    * @return
+    * @return 
     */
   def foldRight[A,B](as: List[A], z: B)(f: (A,B) => B) : B =
     as match {

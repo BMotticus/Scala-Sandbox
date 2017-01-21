@@ -33,3 +33,8 @@ val even = RNG.nonNegativeEven
 
 val d = RNG.double
 val _d = RNG._double
+
+val x = 102
+val n = 40962
+
+n % x
