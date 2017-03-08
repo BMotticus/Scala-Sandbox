@@ -16,15 +16,13 @@ package com.brandonmott.patterns.ch10.functional.monoids
   * }}}
   *
   * These functions are exactly monoid rules.
-  * This example uses the monoids created in the package object.
-  */
+  * This example uses the monoids created in the package object. */
 object MonoidFolding extends App {
   val strings = List("This is\n", "a list of\n", "strings!")
   val numbers = List(1, 2, 3, 4, 5, 6)
-  /**
-    * Note: it doesn't actually matter for the final result whether we use `foldLeft` or `foldRight` 
-    * because our monoids have an ``associative` operation`. It does, however, matter in terms of performance.
-    */
+  
+  /** Note: it doesn't actually matter for the final result whether we use `foldLeft` or `foldRight` 
+    * because our monoids have an ``associative` operation`. It does, however, matter in terms of performance. */
   //Using String Concatenation
   System.out.println(s"Left folded:\n ${strings.foldLeft(stringConcatenation.zero)(stringConcatenation.op)}")
   //Using String Concatenation
@@ -58,11 +56,8 @@ object MonoidFoldingGeneric extends App {
   * The associativity, however, would allow us to do the following:
   * {{{
   *   op(op(1, 2), op(3, 4))
-  * }}}
-  *
-  */
+  * }}} */
 object MonoidBalancedFold extends App {
   val numbers = Array(1, 2, 3, 4)
   System.out.println(s"4! is: ${MonoidOperations.balancedFold(numbers, intMultiplication)(identity)}")
-  
 }

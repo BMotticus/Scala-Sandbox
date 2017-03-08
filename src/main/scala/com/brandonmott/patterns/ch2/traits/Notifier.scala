@@ -1,15 +1,12 @@
 package com.brandonmott.patterns.ch2.traits
 
-/** @Traits_As_Interfaces */
+/** Traits As Interfaces */
 //A simple trait
 trait Alarm {
   def trigger(): String
 }
-/**
-  * trait Notifier has one implemented method, `printNotification` 
-  * one method, `clear`, must be implemented by the mixin class. 
-  * the mixin class is required to have one specific variable, `notificationMessage`. Similar to abstract classes in other languages.
-  */
+/** trait `Notifier` has one implemented method, `printNotification` one method, `clear`, must be implemented by the mixin class. 
+  * the mixin class is required to have one specific variable, `notificationMessage`. Similar to abstract classes in other languages.*/
 trait Notifier {
   //The mixin class definition must have a variable that has 1.) the same name and 2.) be preceded by the "val" keyword.
   val notificationMessage: String
@@ -23,15 +20,13 @@ trait Notifier {
   def clear()
 }
 
-/**
-  * One Use Case for implementing required variables is to `pass a variable to the constructor of a class.`  
-  * class `NotifierImp` will cover the trait requirements:
-  */
+/** One Use Case for implementing required variables is to `pass a variable to the constructor of a class.`  
+  * class `NotifierImp` will cover the trait requirements: */
 class NotifierImpl(val notificationMessage: String) extends Notifier {
   override def clear(): Unit = System.out.println("cleared")
 }
 
-/** @Traits_as_classes */
+/** Traits as classes */
 trait Beeper {
   def beep(times: Int): Unit = {
     assert(times >= 0)
@@ -45,7 +40,7 @@ object BeeperRunner extends App{
   beeper.beep(TIMES)
 }
 
-/** @Traits_Extending_Classes */
+/** Traits Extending Classes */
 abstract class Connector {
   def connect()
   def close()
@@ -68,7 +63,7 @@ class PgSqlConnector extends ConnectorWithHelper {
   }
 }
 
-/** @Traits_Extending_Traits */
+/** Traits Extending Traits */
 /**
   * Extending traits is useful in a design pattern called `Stackable Traits`, which we will be looking into later in this book.
   * Traits can also extend each other. Have a look at the following example:

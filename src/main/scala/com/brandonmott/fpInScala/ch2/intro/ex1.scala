@@ -1,10 +1,8 @@
 package com.brandonmott.fpInScala.ch2.intro
 
-/**
- * Created by brandonmott1 on 1/10/16.
- */ //Exercise 1
+//Exercise 1
 object ex1 extends App{
-
+  /** `monomorphic` version of `findFirst` */
   def findFirst(ss: Array[String], key: String): Int = {
     def go(i:Int): Int = {
       if(ss.length <= i) -1
@@ -13,8 +11,9 @@ object ex1 extends App{
     }
     go(0)
   }
-  
-  /*def findFirst[A](as: Array[A], p: A => Boolean): Int = {
+
+  /** `polymorphic` version of `findFirst` */
+  def findFirstP[A](as: Array[A], p: A => Boolean): Int = {
     @annotation.tailrec
     def loop(n: Int): Int =
       if (n >= as.length) -1
@@ -24,12 +23,20 @@ object ex1 extends App{
       else loop(n + 1)
 
     loop(0)
-  }*/
+  }
 
   val arr = Array("foo","blah","bar","hola","home","me")
-  val name = "foo"
+  val name = "blh"
+  
+  val nameFn: String => Boolean = n => n == "blh"
+  
   println(s"findFirst Array length is ${arr.length - 1}, found ${name} at ${findFirst(arr,name)}")
+  println(s"findFirst Array length is ${arr.length - 1}, found ${nameFn} at ${findFirstP(arr, nameFn)}")
 
+  /** `fib` recursive function to get the nth Fibonacci number (http://mng.bz/C29s).
+    * The first two Fibonacci numbers are 0 and 1. The nth number is always the sum of the
+    * previous two—the sequence begins 0, 1, 1, 2, 3, 5. 
+    * Definition should use a local tail-recursive function. */
   def fib(x: Int): Int = {
     def go(x: Int, a: Int, b: Int):Int ={
       if(x == 0) a
@@ -44,7 +51,9 @@ object ex1 extends App{
 }
 //Exercise 2
 object polymorphic extends App {
-  
+
+  // Exercise 2: Implement a polymorphic function to check whether
+  // an `Array[A]` is sorted
   def isSorted[A](as:Array[A], ordered: (A,A) => Boolean):Boolean ={
     def go[A]( a: Array[A], f: (A,A) => Boolean, x:Int):Boolean = {
       if (a.length - 1 == x) true
@@ -54,39 +63,30 @@ object polymorphic extends App {
     go(as,ordered,0)
   }
   
-  /* 
-    // Exercise 2: Implement a polymorphic function to check whether
-    // an `Array[A]` is sorted
-    def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
-      @annotation.tailrec
-      def go(n: Int): Boolean =
-        if (n >= as.length-1) true
-        else if (gt(as(n), as(n+1))) false
-        else go(n+1)
-  
-      go(0)
-    }
-   */
-  
   def lowToHigh(a:Int, b:Int) = a < b
-  val res = isSorted(Array(1,2,3,4,5,6,7), lowToHigh)
   
-  println(res)
+  val res = isSorted(Array(1, 2, 3, 4, 5, 6, 7), lowToHigh)
+  
+  println("res: Boolean = "+res)
+  
 }
 //Exercise 3
 object curry {
-  
-  def curry[A,B,C](f: (A, B) => C): A => (B => C) = {
+  /** `curry` converts a function `f` of two arguments 
+    * into a function of one argument that "partially applies" `f`. */
+  def curry[A, B, C](f: (A, B) => C): A => (B => C) =
     a => b => f(a, b)
-  }
-  
-  def uncurry[A,B,C](f: A => (B => C)): (A, B) => C = {
-    (a,b) => f(a)(b)
-  }
-  
-  def compose[A,B,C](f: B => C, g: A => B): A => C = {
-    a => f(g(a))
-  }    
+
+  /** `uncurry` reverses the transformation of `curry`. 
+    * Note that `=>` associates to the right, so we could write the return type as `A => B => C` */
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C =
+    (a, b) => f(a)(b)
+
+  /** NB: The `Function2` trait has a `curried` method already, so if you wanted to cheat a little you could write the answer as `f.curried` */
+   
+  /** `compose` is using function composition, which feeds the output of one function to the input of another function. */
+  def compose[A, B, C](f: B => C, g: A => B): A => C =
+    a => f(g(a))  
 }
 
 //Exercise 4

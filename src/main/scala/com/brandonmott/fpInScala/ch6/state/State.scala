@@ -1,16 +1,11 @@
 package com.brandonmott.fpInScala.ch6.state
 
-/**
-  * State is a Wrapper class for the state action data type. A general type for handling any type of state.
+/** State is a Wrapper class for the state action data type. A general type for handling any type of state.
   * State is short for "computation that carries some state along, or state action, state transition, or even statement".
-  * State replaces a type alias that would be:
-  * {{{
-  *   type State[S,+A] = S => (A,S)
-  * }}}
+  * State replaces a type alias that would be:{{{ type State[S,+A] = S => (A,S) }}}
   * Includes general-purpose functions for capturing common patterns of stateful programs 
   * or working with state actions, and doesn't care about the type of the state. 
-  * Defines methods on the State case class where possible, Otherwise they are in the State companion object.
-  */
+  * Defines methods on the State case class where possible, Otherwise they are in the State companion object. */
 case class State[S, +A](run: S => (A, S)){
 //  def unit: S => (A, S) = run
 
@@ -37,11 +32,9 @@ object State {
   def sequenceViaFoldRight[S, A](sas: List[State[S, A]]): State[S, List[A]] =
     sas.foldRight( unit[S, List[A]](List()) )((f, acc) => f.map2(acc)(_ :: _))
 
-  /**
-    * This implementation uses a loop internally and is the same recursion pattern as a left fold. It is quite common 
+  /** This implementation uses a loop internally and is the same recursion pattern as a left fold. It is quite common 
     * with left folds to build up a list in reverse order, then reverse it at the end. (We could also use a 
-    * collection.mutable.ListBuffer internally.)
-    */
+    * collection.mutable.ListBuffer internally.) */
   def sequence[S, A](sas: List[State[S, A]]): State[S, List[A]] = {
   
     def go(s: S, actions: List[State[S, A]], acc: List[A]): (List[A], S) =
@@ -55,23 +48,20 @@ object State {
     State((s: S) => go(s, sas, List()))
   }
 
-  /**
-    * We write the loop using a `foldLeft`. This is `tail recursive` like the previous solution, but it `reverses` 
+  /** We write the loop using a `foldLeft`. This is `tail recursive` like the previous solution, but it `reverses` 
     * the list _before_ folding it instead of after. You might think that this is slower than the `foldRight` solution 
     * since it walks over the list twice, but it's actually faster! The `foldRight` solution technically has to also 
     * walk the list twice, since it has to unravel the call stack, not being tail recursive. And the call stack will be 
-    * as tall as the list is long.
-    */
+    * as tall as the list is long. */
   def sequenceViaFoldLeft[S, A](l: List[State[S, A]]): State[S, List[A]] =
   l.reverse.foldLeft(unit[S, List[A]](List()))((acc, f) => f.map2(acc)(_ :: _))
 
 /* By using for-comprehension to recover the `imperative style`, this code is much easier to read (and write). */
-  /** 
-    * modify is a combinator that can modify the state in arbitrary ways.
+
+  /** `modify` is a combinator that can modify the state in arbitrary ways.
     * To facilitate this kind of imperative programming with for-comprehensions (or flatMaps), we really only need 
     * two primitive State combinators, for reading and writing the state. 
-    * A combinator `get` for getting the current state, and a combinator `set` for setting a new state.
-    */
+    * A combinator `get` for getting the current state, and a combinator `set` for setting a new state. */
   def modify[S](f: S => S): State[S, Unit] = for {
     s <- get        // Gets the current state and assigns it to `s`.
     _ <- set(f(s))  // Sets the new state to `f` applied to `s`.
@@ -86,8 +76,7 @@ object State {
   
   /**
     * The State combinators that we wrote — `get`, `set`, `unit`, `map`, `map2`, and `flatMap` — 
-    * are all the tools needed to implement any kind of state machine or stateful program in a purely functional way.
-    */
+    * are all the tools needed to implement any kind of state machine or stateful program in a purely functional way. */
 }
 
 

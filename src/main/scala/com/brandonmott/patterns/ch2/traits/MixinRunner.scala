@@ -4,7 +4,7 @@ package com.brandonmott.patterns.ch2.traits
   * Mixin Compositions adds the possibility of achieving multiple inheritance
   */
 
-/** @Mixing_Traits_In */
+/** Mixing Traits In */
 
 // A really simple change and it will also show exactly traits can be mixed in
 object MixinRunner extends Ping with Pong {
@@ -14,7 +14,7 @@ object MixinRunner extends Ping with Pong {
   }
 }
 
-/** @Composing_Simple_Traits */
+/** Composing Simple Traits */
 
 class Watch(brand: String, initialTime: Long) {
   def getTime(): Long = System.currentTimeMillis() - initialTime
@@ -49,4 +49,4 @@ object WatchUser {
   }
 }
 
-/** @Composing_Complex_Traits */
+/** Composing Complex Traits */
