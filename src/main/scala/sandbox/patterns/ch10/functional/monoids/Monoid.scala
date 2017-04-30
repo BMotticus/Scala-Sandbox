@@ -1,4 +1,5 @@
-package sandbox.patterns.ch10.functional.monoids
+package sandbox.patterns.ch10.functional
+package monoids
 
 /** 
   * A Monoid is a `purely algebraic structure`, which means that it is defined only by its `algebra`. 
@@ -218,14 +219,17 @@ object Main {
     def plus[A: Monoid](a: A, b: A): A = implicitly[Monoid[A]].mappend(a, b)
     p(plus(3,4))
     p(plus("a","b"))
+    
     //using Identity trait
     implicit def toIdent[A](a: A): Identity[A] = new Identity[A] {
       val value = a
     }
+    
     //inject plus to both Int and String with just one definition.
     p(3.plus(4))
     p("a".plus("b"))
-     
+    
+    //using Monoid trait   
     implicit def toMonoidOp[A: Monoid](a: A): MonoidOp[A] = new MonoidOp[A] {
       val F = implicitly[Monoid[A]]
       val value = a

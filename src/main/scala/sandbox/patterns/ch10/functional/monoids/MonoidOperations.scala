@@ -1,4 +1,5 @@
-package sandbox.patterns.ch10.functional.monoids
+package sandbox.patterns.ch10.functional
+package monoids
 
 /**
   * MonoidOperations has GENERIC FUNCTIONS that preform folding operations on a sequence, using a Monoid and 

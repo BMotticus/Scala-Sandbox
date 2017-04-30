@@ -1,61 +1,58 @@
-package sandbox.patterns.ch10.functional.functors
+package sandbox.patterns.ch10.functional
+package functors
+
+/** `F[_]` uses the Higher-kinded Type feature in Scala. */
 
 /**
-  * `F[_]` uses the Higher-kinded Type feature in Scala.
+  * A functor is a class that `has a map method` and `conforms to functor laws`
   *
-  * @tparam F
+  * The Functor laws:
+  * Identity: Whenever the identity function is mapped over some data, it doesn't change it. 
+  * In other words, map(x)(i => i) == x.
+  *
+  * Composition: Multiple maps must compose together. 
+  * It should make no difference if we do this operation: 
+  *       x.map(i => y(i)).map(i => z(i)) or x.map(i => z(y(i))). 
+  *
+  * The `map` Function: The map function preserves the structure of the data, for example, 
+  * it does not add or remove elements, change their order, and so on. It just changes the representation.
   */
-trait Functor[F[_]] {  
-  def map[A, B](l: F[A])(f: A => B): F[B]
+trait Functor[F[_]] { self =>
+  def map[A, B](fa: F[A])(f: A => B): F[B]
   
+  // derived
+  
+  //Sometimes called imap
   def xmap[A,B](fa: F[A], f: A => B, g: B => A): F[B] = map(fa)(f)
+
+  /**
+    * Lift a function f to operate on Functors
+    */
+  def lift[A, B](f: A => B): F[A] => F[B] = map(_)(f)
+
+  /**
+    * Empty the fa of the values, preserving the structure
+    */
+  def void[A](fa: F[A]): F[Unit] = map(fa)(_ => ())
+
+  /**
+    * Tuple the values in fa with the result of applying a function
+    * with the value
+    */
+  def fproduct[A, B](fa: F[A])(f: A => B): F[(A, B)] = map(fa)(a => a -> f(a))
+
 }
 
-/** All the following functors take an argument that is some arrangement of three type variables 
-  * and then return a function with the type `F[A] => F[B]` */
-
-/**
-  * Covariant functor takes argument arrangement of type: `A => B`
-  */
-trait Covariant[F[_]] {
-  def map[A, B](f: A => B): F[A] => F[B]
+object Functor {
   
-  //derived
-  def xmap[A, B](f: A => B, g: B => A): F[A] => F[B] = map(f)
-}
-
-/**
-  * Contravariant functor takes argument arrangement of type: `B => A`
-  */
-trait Contravariant[F[_]] {
-  def contramap[A, B](f: B => A): F[A] => F[B]
-}
-
-/**
-  * Exponential functor takes argument arrangement of type: `(A => B, B => A)`
-  */
-trait Exponential[F[_]] {
-  def xmap[A, B](f: (A => B, B => A)): F[A] => F[B]
-}
-
-/**
-  * Applicative functor takes argument arrangement of type: `F[A => B]`
-  */
-trait Applicative[F[_]] {
+  implicit val optionFunctor: Functor[Option] = new Functor[Option] {
+    def map[A, B](fa: Option[A])(f: A => B):Option[B] = fa map f
+  }
   
-  def apply[A, B](f: F[A => B]): F[A] => F[B]
+  implicit val listFunctor: Functor[List] = new Functor[List] {
+    def map[A, B](fa: List[A])(f: A => B): List[B] = fa map f
+  }
+  
 }
 
-/**
-  * Monad functor takes argument arrangement of type: `A => F[B]`
-  */
-trait Monad[F[_]] {
-  def flatMap[A, B](f: A => F[B]): F[A] => F[B]
-}
 
-/**
-  * Comonad functor takes argument arrangement of type: `F[A] => B`
-  */
-trait Comonad[F[_]] {
-  def coflatMap[A, B](f: F[A] => B): F[A] => F[B]
-}
